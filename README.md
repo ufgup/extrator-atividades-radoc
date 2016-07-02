@@ -9,8 +9,8 @@ Para executar a aplicação, depois de compilados os módulos maven, deve-se exe
 ```java
 
 java -cp executable.jar ExtrairAtividades arquivo.pdf
-                                            |----- arquivo para extracao
-                               |------------------ classe principal
+             |                 |            |----- arquivo para extracao
+             |                 |------------------ classe principal
              |------------------------------------ executavel desta aplicação
 
 ```
