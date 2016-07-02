@@ -6,12 +6,12 @@ Esta aplicação busca atender a atividade 3 da disciplina de manutenção de so
 ## Como executar
 
 Para executar a aplicação, depois de compilados os módulos maven, deve-se executar a seguinte linha de comando:
-```java
+``` 
 
 java -cp executable.jar ExtrairAtividades arquivo.pdf
              |                 |            |----- arquivo para extracao
              |                 |------------------ classe principal
-             |------------------------------------ executavel desta aplicação
+             |------------------------------------ executavel desta aplicacao
 
 ```
 
