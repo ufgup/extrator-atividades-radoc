@@ -10,5 +10,9 @@ public class AppLogger {
 	public static Logger logger() {
 		return LOGGER;
 	}
+	
+	public static Logger createLogger(Class clazz) {
+		return LoggerFactory.getLogger(clazz.getName());
+	}
 
 }
