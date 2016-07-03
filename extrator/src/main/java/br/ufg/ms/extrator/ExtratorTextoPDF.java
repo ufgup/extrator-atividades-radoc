@@ -52,7 +52,7 @@ public class ExtratorTextoPDF {
 			throw new ErroExtracaoException("Erro de extracao: " + e.getMessage(), e);
 			
 		}
-		log.debug(radoc.getConteudoTextual());
+		//log.debug(radoc.getConteudoTextual());
 		log.debug("Extraidos {} caracteres de {}", radoc.getConteudoTextual().length(), radoc.getRadocFile());
 		return true;
 	}

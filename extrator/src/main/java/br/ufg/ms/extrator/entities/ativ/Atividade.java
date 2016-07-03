@@ -49,5 +49,15 @@ public class Atividade {
 	public void setDtFimAtividade(Date dtFimAtividade) {
 		this.dtFimAtividade = dtFimAtividade;
 	}
+	
+	public Atividade buildClone() {
+		Atividade newAtv = new Atividade();
+		newAtv.setSequencialAtividade(this.getSequencialAtividade());
+		newAtv.setDescricaoAtividade(this.getDescricaoAtividade());
+		newAtv.setDtInicioAtividade(getDtInicioAtividade());
+		newAtv.setDtFimAtividade(this.getDtFimAtividade());
+		newAtv.setQtdeHorasAtividade(this.getQtdeHorasAtividade());
+		return newAtv;
+	}
 
 }
