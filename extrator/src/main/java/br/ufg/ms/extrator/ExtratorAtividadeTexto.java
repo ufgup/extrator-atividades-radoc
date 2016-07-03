@@ -42,34 +42,27 @@ public class ExtratorAtividadeTexto {
 
 	public List<Atividade> extrairAtividadesTexto() throws ErroExtracaoException {
 		LinkedList<Atividade> atividades = new LinkedList<>();
-		
+		ControleIteracao ctrl = new ControleIteracao();
 		BufferedReader bufRead = new BufferedReader(new StringReader(radoc.getConteudoTextual()));
-		String line=null;
-		int lineNumber = 1;
-		int iSecao = -1;  // posicao da secao do RADOC atual
-		boolean keepReading = true;
-		Atividade atvAtual = new Atividade();
+		
 		try {
-			while( keepReading && (line=bufRead.readLine()) != null )
+			while( ctrl.keepReading && (ctrl.line=bufRead.readLine()) != null )
 			{
-				if (line.equals(secoesRadoc[iSecao+1])) {
-					iSecao++;
-					log.debug("Linha {} : Iniciando secao {}", lineNumber, secoesRadoc[iSecao]);
-					if (!atividades.contains(atvAtual)) {
-						atividades.add(atvAtual.buildClone());
-					}
-					atvAtual = new Atividade();
+				if (ctrl.line.equals(secoesRadoc[ctrl.iSecao+1])) {
+					ctrl.iSecao++;
+					log.debug("Linha {} : Iniciando secao {}", ctrl.lineNumber, secoesRadoc[ctrl.iSecao]);
+					ctrl.atvAtual = new Atividade();
 				}
-				switch (iSecao) {
+				switch (ctrl.iSecao) {
 				case -1:
 					break;
 
 				case 0:
-					extAEnsino.extrairDadosAtividade(atvAtual, line, lineNumber);
+					extAEnsino.extrairDadosAtividade(ctrl);
 					break;
 					
 				case 1:
-					extAOrientacao.extrairDadosAtividade(atvAtual, line, lineNumber);
+					extAOrientacao.extrairDadosAtividade(ctrl);
 					break;
 					
 				case 2:
@@ -84,17 +77,41 @@ public class ExtratorAtividadeTexto {
 					break;
 					
 				default:
-					keepReading = false;
+					ctrl.keepReading = false;
 					break;
 					
 				} 
-				lineNumber++;
+				if (ctrl.salvarAtvAtual) {
+					atividades.add(ctrl.atvAtual.buildClone());
+					ctrl.atvAtual = new Atividade();
+					ctrl.salvarAtvAtual = false;
+				}
+				ctrl.lineNumber++;
 			}
 		} catch (IOException e) {
 			
 			e.printStackTrace();
 		}
-		return new ArrayList<>();
+		log.info("Extracao concluida com {} atividades", atividades.size());
+		log.debug("Atividades: {}", atividades);
+		return atividades;
+	}
+	
+	public class ControleIteracao {
+		public String line=null;
+		public int lineNumber = 1;
+		public int iSecao = -1;  // posicao da secao do RADOC atual
+		public Boolean keepReading = true;
+		public Atividade atvAtual = new Atividade();
+		public Boolean salvarAtvAtual = false;
+		
+		@Override
+		public String toString() {
+			return "ControleIteracao [line=" + line + ", lineNumber=" + lineNumber + ", indxSexao=" + iSecao
+					+ ", keepReading=" + keepReading + ", salvarAtvAtual=" + salvarAtvAtual + "]";
+		}
+		
+		
 	}
 
 }

@@ -23,7 +23,7 @@ public class Atividade {
 	}
 	
 	public void setDescricaoAtividade(String descricaoAtividade) {
-		this.descricaoAtividade = descricaoAtividade;
+		this.descricaoAtividade = descricaoAtividade.trim();
 	}
 	
 	public Float getQtdeHorasAtividade() {
@@ -59,5 +59,17 @@ public class Atividade {
 		newAtv.setQtdeHorasAtividade(this.getQtdeHorasAtividade());
 		return newAtv;
 	}
+
+	@Override
+	public String toString() {
+		return "\nAtividade [seq=" + sequencialAtividade 
+				+ ", qtdeHoras=" + qtdeHorasAtividade 
+				+ ", dtIni=" + dtInicioAtividade
+				+ ", dtFim=" + dtFimAtividade
+				+ ", desc=" + descricaoAtividade
+				+"]";
+	}
+	
+	
 
 }
