@@ -25,7 +25,7 @@ public class ExtratorLib {
 		} catch (ErroExtracaoException e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<>();
+		return atividadesExtraidas;
 	}
 
 }
