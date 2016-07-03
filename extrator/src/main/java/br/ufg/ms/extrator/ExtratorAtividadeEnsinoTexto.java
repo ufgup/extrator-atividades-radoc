@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 
-class ExtratorAtividadeEnsinoTexto {
+class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	
 	private static final Logger log = createLogger(ExtratorAtividadeEnsinoTexto.class);
 	
@@ -23,7 +23,7 @@ class ExtratorAtividadeEnsinoTexto {
 	}
 	
 	
-	protected void extrairDadoAtividadeEnsino(Atividade atvAtual, String line, int lineNumber) {
+	public void extrairDadosAtividade(Atividade atvAtual, String line, int lineNumber) {
 		if (!isIniciadaAtividadeEnsino() && 
 			!line.startsWith(marcadorInicioAtvEnsino)) {
 			return;

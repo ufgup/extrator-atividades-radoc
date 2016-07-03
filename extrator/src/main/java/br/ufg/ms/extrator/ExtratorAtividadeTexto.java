@@ -62,7 +62,7 @@ public class ExtratorAtividadeTexto {
 					break;
 
 				case 0:
-					extAEnsino.extrairDadoAtividadeEnsino(atvAtual, line, lineNumber);
+					extAEnsino.extrairDadosAtividade(atvAtual, line, lineNumber);
 					break;
 					
 				case 1:
