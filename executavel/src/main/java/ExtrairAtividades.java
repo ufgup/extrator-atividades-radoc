@@ -5,6 +5,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import br.ufg.ms.extrator.ExtratorLib;
+import br.ufg.ms.extrator.entities.ativ.Atividade;
 
 /**
  * Licensed under APACHE v2. Uses AGPL Libraries
@@ -30,16 +34,25 @@ public class ExtrairAtividades {
 	 * </pre>
 	 */
 	public static void main(String[] args) {
-		logger().debug("Iniciando aplicacao");
+		logger().debug("Iniciando....");
 		List<String> arquivos = filtrarValidos(resolverPathArquivos(args));
 		if (arquivos.isEmpty()) {
 			logger().info("Nenhum arquivo para prosseguir. Finalizando");
 			return;
 		} else {
 			logger().info("Iniciando extracao para {} RADOC", arquivos.size());
+			extrairAtividadesRadocs(arquivos);
 		}
+		logger().info("Concluido");
 	}
 	
+	private static void extrairAtividadesRadocs(List<String> radocs) {
+		for (String radoc: radocs) {
+			List<Atividade> atividades = ExtratorLib.extrairAtividades(radoc);
+			logger().debug("{} atividades extraidas do arquivo {}", atividades.size(), radoc);
+		}
+	}
+
 	/** 
 	 * Resolve o caminho dos arquivos informados em linha de comando 
 	 * como argumentos desta classe.										<br/>
@@ -75,18 +88,20 @@ public class ExtrairAtividades {
 		} else {
 			for (String pathArquivo: pathArquivos) {
 				logger().debug("Validação inicial de {}", pathArquivo);
-				boolean valido = isPdf(pathArquivo) && arquivoExiste(pathArquivo);
-				if (valido) {
-					logger().info("Validacao com sucesso para {}", pathArquivo);
+				if (isValid(pathArquivo)) {
+					/* quiet */
 					listaFiltrada.add(pathArquivo);
 				} else {
-					logger().info("Validacao SEM sucesso para {}. Ignorando...", pathArquivo);
+					logger().error("	Arquivo invalido . Ignorando...", pathArquivo);
 				}
 			}
 		}
 		return listaFiltrada;
 	}
 	
+	public static boolean isValid(String pathArquivo) {
+		return isPdf(pathArquivo) && arquivoExiste(pathArquivo);
+	}
 	/** Determina se um arquivo e um PDF, baseado no caminho
 	 * dele em disco. Pode ser expandido no futuro para checkar o 
 	 * mime-type em vez da extensao, para aumentar a precisao
