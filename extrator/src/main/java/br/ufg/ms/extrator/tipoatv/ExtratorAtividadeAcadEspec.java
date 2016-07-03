@@ -33,7 +33,7 @@ public class ExtratorAtividadeAcadEspec implements ExtratorAtividadeI {
 		
 		if (isIniciadaExtracao() &&
 			ctrl.line.startsWith(CHA.toString())) {
-			String[] chaEDatas = ctrl.line.split("CHA: |Data de início: | Data de término:");
+			String[] chaEDatas = ctrl.line.split("CHA: | Data início: | Data término:");
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
 			ctrl.atvAtual.setDtInicioAtividade(toDate(chaEDatas[2]));
 			ctrl.atvAtual.setDtFimAtividade(toDate(chaEDatas[3]));
@@ -41,8 +41,8 @@ public class ExtratorAtividadeAcadEspec implements ExtratorAtividadeI {
 		}
 		
 		if (isIniciadaExtracao() &&
-				ctrl.line.startsWith(DESCRICAO_ATV.toString())) {
-			String splitDescricao = ctrl.line.substring((DESCRICAO_ATV.toString()).length());
+				ctrl.line.startsWith(TABELA.toString())) {
+			String splitDescricao = ctrl.line.substring((TABELA.toString()).length());
 			ctrl.atvAtual.setDescricaoAtividade(splitDescricao);
 			
 		}

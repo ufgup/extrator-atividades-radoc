@@ -2,9 +2,10 @@ package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.CHA;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.DESCRICAO_ATV;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.TABELA;
+import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.CHA;
+import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.DESCRICAO_ATV;
+import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.PORTARIA;
+import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 
 import org.slf4j.Logger;
@@ -12,11 +13,11 @@ import org.slf4j.Logger;
 import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
 
-public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
+public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 	
-	private static final Logger log = createLogger(ExtratorAtividadeQualificacao.class);
+	private static final Logger log = createLogger(ExtratorAtividadeAdministrativa.class);
 	
-	String marcadorInicio = "Atividades administrativas";
+	String marcadorInicio = "Atividades de qualificação";
 	boolean iniciadaExtracao = false;
 	
 	@Override
@@ -29,15 +30,15 @@ public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 			(ctrl.line.startsWith(TABELA.toString()) ||
 			ctrl.line.startsWith(CHA.toString()))) {
 			setIniciadaExtracao(true);
-			log.debug("	Linha {}: Iniciando leitura efetiva das atividades de Atividades de qualificação na proxima linha", ctrl.lineNumber);
+			log.debug("	Linha {}: Iniciando leitura efetiva das atividades administrativas na proxima linha", ctrl.lineNumber);
 		}
 		
 		if (isIniciadaExtracao() &&
-			ctrl.line.startsWith(CHA.toString())) {
-			String[] chaEDatas = ctrl.line.split("CHA: |Data de início: | Data de término:");
-			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
-			ctrl.atvAtual.setDtInicioAtividade(toDate(chaEDatas[2]));
-			ctrl.atvAtual.setDtFimAtividade(toDate(chaEDatas[3]));
+			ctrl.line.startsWith(PORTARIA.toString())) {
+			String[] chaEDatas = ctrl.line.split("Portaria (\\d/\\d){0,1}| CHA: |Data início: | Data término:");
+			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[2]));
+			ctrl.atvAtual.setDtInicioAtividade(toDate(chaEDatas[3]));
+			ctrl.atvAtual.setDtFimAtividade(toDate(chaEDatas[4]));
 			
 		}
 		
@@ -67,6 +68,7 @@ public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 	enum TagsDados {
 		DESCRICAO_ATV("Descrição:"),
 		TABELA("Tabela:"),
+		PORTARIA("Portaria"),
 		CHA("CHA:");
 		
 		private String str;

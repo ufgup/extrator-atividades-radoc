@@ -14,6 +14,8 @@ import org.slf4j.Logger;
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 import br.ufg.ms.extrator.entities.radoc.Radoc;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAcadEspec;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
@@ -39,7 +41,8 @@ public class ExtratorAtividadeTexto {
 	private ExtratorAtividadeOrientacao extAOrientacao = new ExtratorAtividadeOrientacao();
 	private ExtratorAtividadeExtensao extAExtensao = new ExtratorAtividadeExtensao();
 	private ExtratorAtividadeQualificacao  extQualificacao = new ExtratorAtividadeQualificacao();
-	
+	private ExtratorAtividadeAcadEspec extAAcadEspe = new ExtratorAtividadeAcadEspec();
+	private ExtratorAtividadeAdministrativa extAAdmin = new ExtratorAtividadeAdministrativa();
 	public ExtratorAtividadeTexto(Radoc radoc) {
 		this.radoc = radoc;
 	}
@@ -81,6 +84,11 @@ public class ExtratorAtividadeTexto {
 					break;
 					
 				case 5:
+					extAAcadEspe.extrairDadosAtividade(ctrl);
+					break;
+					
+				case 6:
+					extAAdmin.extrairDadosAtividade(ctrl);
 					break;
 					
 				default:
