@@ -1,13 +1,14 @@
-package br.ufg.ms.extrator;
+package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static java.lang.Float.parseFloat;
 
 import org.slf4j.Logger;
 
+import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 
-class ExtratorAtividadeEnsinoTexto {
+public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	
 	private static final Logger log = createLogger(ExtratorAtividadeEnsinoTexto.class);
 	
@@ -23,7 +24,7 @@ class ExtratorAtividadeEnsinoTexto {
 	}
 	
 	
-	protected void extrairDadoAtividadeEnsino(Atividade atvAtual, String line, int lineNumber) {
+	public void extrairDadosAtividade(Atividade atvAtual, String line, int lineNumber) {
 		if (!isIniciadaAtividadeEnsino() && 
 			!line.startsWith(marcadorInicioAtvEnsino)) {
 			return;
