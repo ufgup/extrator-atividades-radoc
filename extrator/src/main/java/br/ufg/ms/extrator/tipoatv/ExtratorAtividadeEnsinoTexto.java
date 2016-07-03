@@ -1,13 +1,14 @@
-package br.ufg.ms.extrator;
+package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static java.lang.Float.parseFloat;
 
 import org.slf4j.Logger;
 
+import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 
-class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
+public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	
 	private static final Logger log = createLogger(ExtratorAtividadeEnsinoTexto.class);
 	

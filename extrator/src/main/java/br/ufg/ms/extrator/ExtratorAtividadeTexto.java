@@ -1,7 +1,6 @@
 package br.ufg.ms.extrator;
 
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
-import static java.lang.Float.parseFloat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import org.slf4j.Logger;
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 import br.ufg.ms.extrator.entities.radoc.Radoc;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
 
 public class ExtratorAtividadeTexto {
 	private static Radoc radoc;
