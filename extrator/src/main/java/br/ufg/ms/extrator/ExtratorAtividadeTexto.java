@@ -15,7 +15,9 @@ import br.ufg.ms.extrator.entities.ativ.Atividade;
 import br.ufg.ms.extrator.entities.radoc.Radoc;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao;
 
 public class ExtratorAtividadeTexto {
 	private static Radoc radoc;
@@ -25,6 +27,7 @@ public class ExtratorAtividadeTexto {
 		"Atividades de ensino",
 		"Atividades de orientação",
 		"Atividades em projetos",
+		"Atividades de extensão",
 		"Atividades de qualificação",
 		"Atividades acadêmicas especiais",
 		"Atividades administrativas",
@@ -34,7 +37,8 @@ public class ExtratorAtividadeTexto {
 	
 	private ExtratorAtividadeEnsinoTexto extAEnsino = new ExtratorAtividadeEnsinoTexto();
 	private ExtratorAtividadeOrientacao extAOrientacao = new ExtratorAtividadeOrientacao();
-	
+	private ExtratorAtividadeExtensao extAExtensao = new ExtratorAtividadeExtensao();
+	private ExtratorAtividadeQualificacao  extQualificacao = new ExtratorAtividadeQualificacao();
 	
 	public ExtratorAtividadeTexto(Radoc radoc) {
 		this.radoc = radoc;
@@ -66,11 +70,14 @@ public class ExtratorAtividadeTexto {
 					break;
 					
 				case 2:
+					
 					break;
 				case 3:
+					extAExtensao.extrairDadosAtividade(ctrl);
 					break;
 					
 				case 4:
+					extQualificacao.extrairDadosAtividade(ctrl);
 					break;
 					
 				case 5:

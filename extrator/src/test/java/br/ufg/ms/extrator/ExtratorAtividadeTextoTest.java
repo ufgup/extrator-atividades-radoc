@@ -16,6 +16,7 @@ public class ExtratorAtividadeTextoTest {
 		ext.processarRadoc();
 		
 		ExtratorAtividadeTexto extAtividade = new ExtratorAtividadeTexto(radoc);
+		System.out.println(extAtividade.extrairAtividadesTexto().size());
 		Assert.assertTrue(extAtividade.extrairAtividadesTexto().size() == 25);
 	}
 
