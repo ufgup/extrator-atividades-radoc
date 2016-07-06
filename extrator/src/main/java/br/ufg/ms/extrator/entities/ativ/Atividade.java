@@ -51,13 +51,17 @@ public class Atividade {
 	}
 	
 	public Atividade buildClone() {
-		Atividade newAtv = new Atividade();
-		newAtv.setSequencialAtividade(this.getSequencialAtividade());
+		Atividade newAtv = new Atividade(this.getSequencialAtividade());
 		newAtv.setDescricaoAtividade(this.getDescricaoAtividade());
 		newAtv.setDtInicioAtividade(getDtInicioAtividade());
 		newAtv.setDtFimAtividade(this.getDtFimAtividade());
 		newAtv.setQtdeHorasAtividade(this.getQtdeHorasAtividade());
 		return newAtv;
+	}
+
+	public Atividade(Integer sequencialAtividade) {
+		super();
+		this.sequencialAtividade = sequencialAtividade;
 	}
 
 	@Override
