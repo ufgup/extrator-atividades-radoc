@@ -35,6 +35,8 @@ public class ExtratorAtividadeTexto {
 		"Atividades administrativas",
 		"Produtos"
 	};
+	// contador será passado como parametro para o construtor da classe Atividade;
+	private Integer contador = 1;
 	
 	
 	private ExtratorAtividadeEnsinoTexto extAEnsino = new ExtratorAtividadeEnsinoTexto();
@@ -58,7 +60,7 @@ public class ExtratorAtividadeTexto {
 				if (ctrl.line.equals(secoesRadoc[ctrl.iSecao+1])) {
 					ctrl.iSecao++;
 					log.debug("Linha {} : Iniciando secao {}", ctrl.lineNumber, secoesRadoc[ctrl.iSecao]);
-					ctrl.atvAtual = new Atividade();
+					ctrl.atvAtual = new Atividade(contador);
 				}
 				switch (ctrl.iSecao) {
 				case -1:
@@ -97,8 +99,9 @@ public class ExtratorAtividadeTexto {
 					
 				} 
 				if (ctrl.salvarAtvAtual) {
+					contador++;
 					atividades.add(ctrl.atvAtual.buildClone());
-					ctrl.atvAtual = new Atividade();
+					ctrl.atvAtual = new Atividade(contador);
 					ctrl.salvarAtvAtual = false;
 				}
 				ctrl.lineNumber++;
@@ -117,7 +120,7 @@ public class ExtratorAtividadeTexto {
 		public int lineNumber = 1;
 		public int iSecao = -1;  // posicao da secao do RADOC atual
 		public Boolean keepReading = true;
-		public Atividade atvAtual = new Atividade();
+		public Atividade atvAtual;
 		public Boolean salvarAtvAtual = false;
 		
 		@Override
