@@ -19,6 +19,7 @@ import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeProjetos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao;
 
 public class ExtratorAtividadeTexto {
@@ -43,6 +44,8 @@ public class ExtratorAtividadeTexto {
 	private ExtratorAtividadeQualificacao  extQualificacao = new ExtratorAtividadeQualificacao();
 	private ExtratorAtividadeAcadEspec extAAcadEspe = new ExtratorAtividadeAcadEspec();
 	private ExtratorAtividadeAdministrativa extAAdmin = new ExtratorAtividadeAdministrativa();
+	private ExtratorAtividadeProjetos extAProjeto = new ExtratorAtividadeProjetos();
+	
 	public ExtratorAtividadeTexto(Radoc radoc) {
 		this.radoc = radoc;
 	}
@@ -73,7 +76,7 @@ public class ExtratorAtividadeTexto {
 					break;
 					
 				case 2:
-					
+					extAProjeto.extrairDadosAtividade(ctrl);
 					break;
 				case 3:
 					extAExtensao.extrairDadosAtividade(ctrl);

@@ -45,7 +45,6 @@ public class ExtratorTextoPDF {
 			}
 			
 			byte[] strAsBytes = strBuilderConteudo.toString().getBytes();
-			
 				
 			radoc.setConteudoTextual(new String(strAsBytes, "UTF-8"));
 		} catch (IOException e) {
