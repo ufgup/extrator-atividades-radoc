@@ -110,8 +110,8 @@ public class ExtratorAtividadeTexto {
 				ctrl.lineNumber++;
 			}
 		} catch (IOException e) {
-			
-			e.printStackTrace();
+			log.error("Linha com erro:\n" + ctrl.line);
+			throw new ErroExtracaoException("Erro ao extrair linha " + ctrl.line + " do arquivo", e);
 		}
 		log.info("Extracao concluida com {} atividades", atividades.size());
 		log.debug("Atividades: {}", atividades);
