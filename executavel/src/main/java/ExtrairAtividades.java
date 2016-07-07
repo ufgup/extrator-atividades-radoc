@@ -1,6 +1,9 @@
 import static br.ufg.ms.extrator.common.AppLogger.logger;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -49,7 +52,30 @@ public class ExtrairAtividades {
 	private static void extrairAtividadesRadocs(List<String> radocs) {
 		for (String radoc: radocs) {
 			List<Atividade> atividades = ExtratorLib.extrairAtividades(radoc);
+			
 			logger().debug("{} atividades extraidas do arquivo {}", atividades.size(), radoc);
+			try {
+				//Gravando em txt o resultado da extração
+				File arquivo = new File("AtividadesExtraídas.txt");
+				if(!arquivo.exists()){
+					arquivo.createNewFile();
+				}
+				FileWriter arq = new FileWriter(arquivo);
+			    PrintWriter gravarArq = new PrintWriter(arq);
+			    
+			    //strings auxiliares para retorno
+			    String texto = atividades.toString();
+			    String txt = texto.substring(3,texto.length()-1);
+			    
+			    gravarArq.printf(txt.replaceAll(",", ""));
+				arq.close();
+				logger().debug("Arquivo .txt gravado com sucesso!");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				logger().debug("Erro ao gerar arquivo .txt!");
+			}
+			
 		}
 	}
 

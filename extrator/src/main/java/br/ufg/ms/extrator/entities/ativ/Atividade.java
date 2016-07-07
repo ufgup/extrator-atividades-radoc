@@ -1,5 +1,7 @@
 package br.ufg.ms.extrator.entities.ativ;
 
+import java.text.MessageFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Atividade {
@@ -31,7 +33,28 @@ public class Atividade {
 	}
 	
 	public void setQtdeHorasAtividade(Float qtdeHorasAtividade) {
-		this.qtdeHorasAtividade = qtdeHorasAtividade;
+		float horas = 0;
+		if(qtdeHorasAtividade > 0){
+			this.qtdeHorasAtividade = qtdeHorasAtividade;
+		}
+		else{
+			/* 
+			   número de dias entre a data inicial
+			   (“dtInicioAtividade”) e a data final (“dtFimAtividade”) 
+			   da atividade multiplicado por oito 
+			*/
+			if(this.getDtFimAtividade() != null){
+				long dt = (this.getDtFimAtividade().getTime() - this.getDtInicioAtividade().getTime());      
+	            //dividindo por 86400000L, pois o retorno é em milisegundos
+				long dias = (dt / 86400000L); 
+				horas = dias * 8;
+				if(horas <= 0){
+					horas = 8;
+				}
+			}
+			
+			this.qtdeHorasAtividade = horas;
+		}
 	}
 	
 	public Date getDtInicioAtividade() {
@@ -63,15 +86,13 @@ public class Atividade {
 		super();
 		this.sequencialAtividade = sequencialAtividade;
 	}
+	
+	
 
 	@Override
 	public String toString() {
-		return "\nAtividade [seq=" + sequencialAtividade 
-				+ ", qtdeHoras=" + qtdeHorasAtividade 
-				+ ", dtIni=" + dtInicioAtividade
-				+ ", dtFim=" + dtFimAtividade
-				+ ", desc=" + descricaoAtividade
-				+"]";
+		return MessageFormat.format("%n{0} | {1} | {2} | {3,date} | {4,date}", sequencialAtividade,
+				descricaoAtividade, qtdeHorasAtividade, dtInicioAtividade, dtFimAtividade);
 	}
 	
 	
