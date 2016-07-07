@@ -12,10 +12,11 @@ import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
+import br.ufg.ms.extrator.common.AppLogger;
 
 public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 	
-	private static final Logger log = createLogger(ExtratorAtividadeAdministrativa.class);
+	private static final Logger log = AppLogger.logger();
 	
 	String marcadorInicio = "Atividades de qualificação";
 	boolean iniciadaExtracao = false;

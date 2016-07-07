@@ -7,10 +7,11 @@ import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
+import br.ufg.ms.extrator.common.AppLogger;
 
 public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	
-	private static final Logger log = createLogger(ExtratorAtividadeEnsinoTexto.class);
+	private static final Logger log = AppLogger.logger();
 	
 	String marcadorInicioAtvEnsino = "Curso Disciplina CHA";
 	boolean iniciadaAtividadeEnsino = false;
@@ -44,7 +45,9 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 			String cargaHorariaEAno = ctrl.line.substring(splitDesc[0].length(), ctrl.line.indexOf(splitDesc[1]));
 			String splitCargaHorariaEAno[] = cargaHorariaEAno.split(" ");
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitCargaHorariaEAno[0]));
-			log.debug("	Descricao AE: {}  CHA: {}", ctrl.atvAtual.getDescricaoAtividade(), ctrl.atvAtual.getQtdeHorasAtividade());
+			log.debug("	Descricao AE: {}  CHA: {}", 
+					ctrl.atvAtual.getDescricaoAtividade(), 
+					ctrl.atvAtual.getQtdeHorasAtividade());
 			ctrl.salvarAtvAtual = true;
 		}
 	}

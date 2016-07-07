@@ -23,7 +23,7 @@ public class ExtratorLib {
 		} catch (ArquivoInvalidoException e) {
 			logger().error("Erro ao extrair de {}. Arquivo invalido. Cancelando extracao");
 		} catch (ErroExtracaoException e) {
-			e.printStackTrace();
+			logger().error("Erro de extracao");
 		}
 		return atividadesExtraidas;
 	}

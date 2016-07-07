@@ -1,16 +1,14 @@
 package br.ufg.ms.extrator;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
 
+import br.ufg.ms.extrator.common.AppLogger;
 import br.ufg.ms.extrator.entities.ativ.Atividade;
 import br.ufg.ms.extrator.entities.radoc.Radoc;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
@@ -24,7 +22,7 @@ import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao;
 
 public class ExtratorAtividadeTexto {
 	private static Radoc radoc;
-	private static final Logger log = createLogger(ExtratorAtividadeTexto.class);
+	private static final Logger log = AppLogger.logger();
 	
 	private String[] secoesRadoc = {
 		"Atividades de ensino",
@@ -36,9 +34,9 @@ public class ExtratorAtividadeTexto {
 		"Atividades administrativas",
 		"Produtos"
 	};
+	
 	// contador será passado como parametro para o construtor da classe Atividade;
 	private Integer contador = 1;
-	
 	
 	private ExtratorAtividadeEnsinoTexto extAEnsino = new ExtratorAtividadeEnsinoTexto();
 	private ExtratorAtividadeOrientacao extAOrientacao = new ExtratorAtividadeOrientacao();
@@ -48,13 +46,14 @@ public class ExtratorAtividadeTexto {
 	private ExtratorAtividadeAdministrativa extAAdmin = new ExtratorAtividadeAdministrativa();
 	private ExtratorAtividadeProjetos extAProjeto = new ExtratorAtividadeProjetos();
 	
-	public ExtratorAtividadeTexto(Radoc radoc) {
-		this.radoc = radoc;
+	public ExtratorAtividadeTexto(Radoc newRadoc) {
+		radoc = newRadoc;
 	}
 
 	public List<Atividade> extrairAtividadesTexto() throws ErroExtracaoException {
 		LinkedList<Atividade> atividades = new LinkedList<>();
 		ControleIteracao ctrl = new ControleIteracao();
+		log.debug(radoc.getConteudoTextual());
 		BufferedReader bufRead = new BufferedReader(new StringReader(radoc.getConteudoTextual()));
 		
 		try {
@@ -68,7 +67,6 @@ public class ExtratorAtividadeTexto {
 				switch (ctrl.iSecao) {
 				case -1:
 					break;
-
 				case 0:
 					extAEnsino.extrairDadosAtividade(ctrl);
 					break;
@@ -128,7 +126,7 @@ public class ExtratorAtividadeTexto {
 		
 		@Override
 		public String toString() {
-			return "ControleIteracao [line=" + line + ", lineNumber=" + lineNumber + ", indxSexao=" + iSecao
+			return "ControleIteracao [line=" + line + ", lineNumber=" + lineNumber + ", indxSecao=" + iSecao
 					+ ", keepReading=" + keepReading + ", salvarAtvAtual=" + salvarAtvAtual + "]";
 		}
 		
