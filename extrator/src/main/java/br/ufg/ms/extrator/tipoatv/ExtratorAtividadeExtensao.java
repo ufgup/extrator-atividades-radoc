@@ -35,9 +35,12 @@ public class ExtratorAtividadeExtensao implements ExtratorAtividadeI {
 		if (isIniciadaExtracao() &&
 			ctrl.line.startsWith(CHA.toString())) {
 			String[] chaEDatas = ctrl.line.split("CHA: | Data início: | Data término:");
-			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
+			
+			//passamos a data primeiro, pois se não houver CHA informada, calcula-se pelas datas
 			ctrl.atvAtual.setDtInicioAtividade(toDate(chaEDatas[2]));
 			ctrl.atvAtual.setDtFimAtividade(toDate(chaEDatas[3]));
+			
+			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
 			
 		}
 		
