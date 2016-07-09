@@ -40,7 +40,7 @@
                   <archive>
                       <manifest>
                           <addClasspath>true</addClasspath>
-                          <mainClass>run.ExtrairAtividades</mainClass>
+                          <mainClass>ExtrairAtividades</mainClass>
                       </manifest>
                   </archive>
                   <descriptorRefs>
