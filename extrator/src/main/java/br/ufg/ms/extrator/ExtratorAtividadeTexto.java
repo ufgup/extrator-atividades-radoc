@@ -20,9 +20,24 @@ import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeProjetos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao;
 
+
+/**
+ * 
+ * Classe responsavel por pegar as informações da classe
+ * Radoc que ja foram extraidas do arquivo Radoc e separar em atividades
+ * delegando a cada classe responsavel de extração por tipo de atividade 
+ * a encapsular a forma de extração e tratamento de dados
+ *
+ */
+
 public class ExtratorAtividadeTexto {
 	private static Radoc radoc;
 	private static final Logger log = AppLogger.logger();
+	
+	/**
+	 *Atributo que representa as sessoes de atividades do Radoc 
+	 * 
+	 */
 	
 	private String[] secoesRadoc = {
 		"Atividades de ensino",
@@ -35,21 +50,55 @@ public class ExtratorAtividadeTexto {
 		"Produtos"
 	};
 	
-	// contador será passado como parametro para o construtor da classe Atividade;
+	/**
+	 * Este atributo contador representa o sequencial da ativdade,
+	 * o controle dos valores do sequencial e realizado nesta classe
+	 * sendo passado como parametro para cada nova atividade criada
+	 */
+	
 	private Integer contador = 1;
 	
-	private ExtratorAtividadeEnsinoTexto extAEnsino = new ExtratorAtividadeEnsinoTexto();
-	private ExtratorAtividadeOrientacao extAOrientacao = new ExtratorAtividadeOrientacao();
-	private ExtratorAtividadeExtensao extAExtensao = new ExtratorAtividadeExtensao();
-	private ExtratorAtividadeQualificacao  extQualificacao = new ExtratorAtividadeQualificacao();
-	private ExtratorAtividadeAcadEspec extAAcadEspe = new ExtratorAtividadeAcadEspec();
-	private ExtratorAtividadeAdministrativa extAAdmin = new ExtratorAtividadeAdministrativa();
-	private ExtratorAtividadeProjetos extAProjeto = new ExtratorAtividadeProjetos();
+	/**
+	 * 
+	 * Atributos que representam extratores especificos para cada tipo de atividade
+	 * que são apresentadas no Radoc
+	 * 
+	 */
+	
+	private ExtratorAtividadeEnsinoTexto extAEnsino 		= new ExtratorAtividadeEnsinoTexto();
+	private ExtratorAtividadeOrientacao extAOrientacao 		= new ExtratorAtividadeOrientacao();
+	private ExtratorAtividadeExtensao extAExtensao 			= new ExtratorAtividadeExtensao();
+	private ExtratorAtividadeQualificacao  extQualificacao 	= new ExtratorAtividadeQualificacao();
+	private ExtratorAtividadeAcadEspec extAAcadEspe 		= new ExtratorAtividadeAcadEspec();
+	private ExtratorAtividadeAdministrativa extAAdmin 		= new ExtratorAtividadeAdministrativa();
+	private ExtratorAtividadeProjetos extAProjeto 			= new ExtratorAtividadeProjetos();
 	
 	public ExtratorAtividadeTexto(Radoc newRadoc) {
 		radoc = newRadoc;
 	}
 
+	
+	/**
+	 * Metodo resposanvel por extrair as atividades do Radoc.
+	 * para cada tipo de atividade utiliza o extrator reponsavel
+	 * 
+	 * Interage ate encontrar as sessoes responsaveis por cada atividade
+	 * fazendo um cruzamento de informações com a variavel secoesRadoc para
+	 * determinar em qual sessao se encontra do documento PDF e utilizar o extrator
+	 * adquado.
+	 * 
+	 * Cada interação do while, permite que um ou mais dados sejam extraidos da linha atual,
+	 * para a atividade atual.
+	 * 
+	 * Cada extrator e capaz de marcar a atividade atual para ser salva quando interpreta
+	 * o que esta pronto. 
+	 * 
+	 * Somente percorre uma unica vez cada linha extraida do Radoc, por eficiencia
+	 * 
+	 * @return List<Atividade>
+	 * @throws ErroExtracaoException
+	 */
+	
 	public List<Atividade> extrairAtividadesTexto() throws ErroExtracaoException {
 		LinkedList<Atividade> atividades = new LinkedList<>();
 		ControleIteracao ctrl = new ControleIteracao();
@@ -116,6 +165,12 @@ public class ExtratorAtividadeTexto {
 		return atividades;
 	}
 	
+	
+	/**
+	 * Classe responsavel por auxiliar na interação
+	 * das informações extraidas do Radoc
+	 *  
+	 */
 	public class ControleIteracao {
 		public String line=null;
 		public int lineNumber = 1;

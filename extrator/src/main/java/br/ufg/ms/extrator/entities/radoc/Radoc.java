@@ -4,6 +4,18 @@ import java.io.File;
 
 import br.ufg.ms.extrator.exception.ArquivoInvalidoException;
 
+
+/**
+ * 
+ * Classe responsavel com representar o Radoc a ser importado
+ * 
+ * os atributos
+ * path 			: Representa o caminho do arquivo
+ * conteudoTextual 	: Representa todo o texto puro que foi extraido do PDF
+ * radocFile 		: Representa o arquivo a ser importado
+ *
+ */
+
 public class Radoc {
 
 	private String path = "";

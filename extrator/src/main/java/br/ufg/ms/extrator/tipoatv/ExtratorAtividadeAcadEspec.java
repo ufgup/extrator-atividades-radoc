@@ -13,6 +13,13 @@ import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
 import br.ufg.ms.extrator.common.AppLogger;
 
+
+/**
+ * 
+ * Classe responsavel por encapsular a regra de extração das Atividades
+ * Academicas Especiais
+ *
+ */
 public class ExtratorAtividadeAcadEspec implements ExtratorAtividadeI {
 	
 	private static final Logger log = AppLogger.logger();
@@ -63,6 +70,12 @@ public class ExtratorAtividadeAcadEspec implements ExtratorAtividadeI {
 	private void setIniciadaExtracao(boolean iniciadaExtracao) {
 		this.iniciadaExtracao = iniciadaExtracao;
 	}
+	
+	/**
+	 * Enum criado no mesmo arquivo pois ele 
+	 * e somente usando para o contexto desta classe
+	 *
+	 */
 	
 	enum TagsDados {
 		DESCRICAO_ATV("Descrição Complementar:"),
