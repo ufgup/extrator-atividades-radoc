@@ -1,4 +1,4 @@
-package run;
+
 import static br.ufg.ms.extrator.common.AppLogger.logger;
 
 import java.io.File;
