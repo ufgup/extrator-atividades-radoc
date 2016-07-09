@@ -14,6 +14,16 @@ import br.ufg.ms.extrator.exception.ArquivoInvalidoException;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
 import ch.qos.logback.core.encoder.Encoder;
 
+
+/**
+ * Classe responsavel por realizar a extração das informações
+ * do PDF, e coloca-las no conteudoTextual do Radoc, utilizando
+ * a biblioteca iTextPdf
+ * 
+ * @author alunoinf
+ *
+ */
+
 public class ExtratorTextoPDF {
 	
 	private Radoc radoc;

@@ -14,6 +14,13 @@ import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
 import br.ufg.ms.extrator.common.AppLogger;
 
+/**
+ * 
+ * Classe responsavel por encapsular a regra de extração das Atividades
+ * Administrativas
+ *
+ */
+
 public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 	
 	private static final Logger log = AppLogger.logger();

@@ -12,6 +12,15 @@ import br.ufg.ms.extrator.exception.ErroExtracaoException;
 
 public class ExtratorLib {
 	
+	
+	/**
+	 * Esta classe tem a responsabilidade de inicializar
+	 * a extração das atividades do Radoc
+	 *  
+	 * @param caminhoRadoc
+	 * @return List<Atividade> 
+	 */
+	
 	public static List<Atividade> extrairAtividades(String caminhoRadoc) {
 		List<Atividade> atividadesExtraidas = new ArrayList<>();
 		try {
