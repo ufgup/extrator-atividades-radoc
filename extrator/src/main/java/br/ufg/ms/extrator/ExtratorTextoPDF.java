@@ -50,7 +50,7 @@ public class ExtratorTextoPDF {
 		try {
 			PdfReader reader = new PdfReader(radoc.getRadocFile().getAbsolutePath());
 			StringBuilder strBuilderConteudo = new StringBuilder();
-			for (int i = 1; i <= reader.getNumberOfPages(); i++) {
+			for (int i = 1; i < reader.getNumberOfPages(); i++) {
 				strBuilderConteudo.append(PdfTextExtractor.getTextFromPage(reader, i));
 			}
 			

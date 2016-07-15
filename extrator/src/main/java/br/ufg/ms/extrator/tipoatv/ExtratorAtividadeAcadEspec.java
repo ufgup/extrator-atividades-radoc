@@ -1,9 +1,7 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAcadEspec.TagsDados.CHA;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAcadEspec.TagsDados.DESCRICAO_ATV;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAcadEspec.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 

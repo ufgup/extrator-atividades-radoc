@@ -51,6 +51,7 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 			{"021", "ALUNO DE OUTRA IFE CO-ORIENTADO EM DISSERTAÇÃO DE MESTRADO EM ANDAMENTO", "1"},
 			{"022", "ALUNO ORIENTADO EM PROGRAMA DE INICIAÇÃO CIENTÍFICA(PIBIC/PIVIC/PROLICEN/PICME-OBMEP)", "6"},
 			//Adicionada essa linha com mesma categoria, pois em alguns radocs falta a palavra PICME-OBMEP
+			//A falta de padronização dos radocs dificulta muito criar um padrão para o codigo seguir
 			{"022", "ALUNO ORIENTADO EM PROGRAMA DE INICIAÇÃO CIENTÍFICA (PIBIC / PIVIC /PROLICEN)", "6"}, 
 			{"013", "ALUNO ORIENTADO EM PROGRAMA DE INICIAÇÃO CIENTÍFICA JÚNIOR", "5"},
 			{"024", "ALUNO ORIENTADO EM PROGRAMA ESPECIAL DE TREINAMENTO (PET)", "5"},

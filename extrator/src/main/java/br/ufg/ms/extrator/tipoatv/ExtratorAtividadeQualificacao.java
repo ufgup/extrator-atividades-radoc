@@ -1,11 +1,13 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
+import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.TABELA;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.CHA;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.DESCRICAO_ATV;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
+
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 
@@ -25,6 +27,29 @@ public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 	
 	private static final Logger log = AppLogger.logger();
 	
+	
+	private String[][] tabelaCategorias = {
+			{"001", "Docente regularmente matriculado em curso de doutorado com relatórios de"
+				  + " pós-graduação aprovados (pontuação por mês de curso)", "12"},
+			{"002", "Estágio Pós-Doutoral ou Estágio Sênior (pontuação por mês de estágio)", "12"},
+			{"003", "Docente em licença para capacitação (Artigo 87, Lei N.8112) (pontuação por"
+				  + " mês de licença)", "12"},
+			{"004", "Curso de aperfeiçoamento realizado com carga horária superior a 40 horas", "3"},
+			{"005", "Curso de aperfeiçoamento realizado com carga horária inferior a 40 horas", "1"},
+			{"006", "Participação em Congressos, Seminários, Encontros, Jornadas etc. (total"
+				  + " máximo a ser considerado neste item são 3 pontos)", "1"}
+	};
+	
+	private String naturezaAtividade = "005";
+	private String tipoAtividade = "003";
+	private String categoria;
+	private String subCategoria = "000";
+	
+	/**
+	 * Essa variavel marcador inicio nao esta em uso mas pode confundir muita coisa
+	 * entao cuidado ao alterar ou remover, essa classa esta extraindo os dados de qualificação msm
+	 *
+	 */
 	String marcadorInicio = "Atividades administrativas";
 	boolean iniciadaExtracao = false;
 	
@@ -57,6 +82,15 @@ public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 			
 		}
 		
+		if (isIniciadaExtracao() &&
+				ctrl.line.startsWith(TABELA.toString())) {
+			String tabelaAtividade = ctrl.line.substring((TABELA.toString()).length());
+			this.categoria = buscaCategoria(tabelaAtividade);
+		}
+		
+		String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+		ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
+		
 		if (ctrl.atvAtual.getDescricaoAtividade() !=null &&
 			ctrl.atvAtual.getQtdeHorasAtividade() != null ) {
 			// atingiu final da atividade
@@ -64,7 +98,19 @@ public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 		}
 		
 	}
-
+	
+	private String buscaCategoria(String tabelaAtividade) {
+		for(int i=0; i < tabelaCategorias.length; i++){
+			byte[] linhaAtual = tabelaAtividade.toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
+			byte[] catAtual = tabelaCategorias[i][1].toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
+			
+			if (Arrays.equals(linhaAtual, catAtual)) {
+				return tabelaCategorias[i][0];
+			}
+		}
+		return "000";		
+	}
+	
 	private boolean isIniciadaExtracao() {
 		return iniciadaExtracao;
 	}

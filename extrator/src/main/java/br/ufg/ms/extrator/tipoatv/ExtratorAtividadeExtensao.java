@@ -1,6 +1,5 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao.TagsDados.CHA;
 import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao.TagsDados.DESCRICAO_ATV;
