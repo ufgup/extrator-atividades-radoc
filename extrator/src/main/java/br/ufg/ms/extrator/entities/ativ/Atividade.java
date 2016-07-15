@@ -18,6 +18,7 @@ public class Atividade {
 	private Float qtdeHorasAtividade;
 	private Date dtInicioAtividade;
 	private Date dtFimAtividade;
+	private String codGrupoPontuacao;
 	
 	public Integer getSequencialAtividade() {
 		return sequencialAtividade;
@@ -108,6 +109,7 @@ public class Atividade {
 		newAtv.setDtInicioAtividade(getDtInicioAtividade());
 		newAtv.setDtFimAtividade(this.getDtFimAtividade());
 		newAtv.setQtdeHorasAtividade(this.getQtdeHorasAtividade());
+		newAtv.setCodGrupoPontuacao(this.getCodGrupoPontuacao());
 		return newAtv;
 	}
 	
@@ -127,7 +129,20 @@ public class Atividade {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("%n{0} | {1} | {2} | {3,date} | {4,date}", sequencialAtividade,
-				descricaoAtividade, qtdeHorasAtividade, dtInicioAtividade, dtFimAtividade);
+		return MessageFormat.format("%n{5} | {0} | {1} | {2} | {3,date} | {4,date}", sequencialAtividade,
+				descricaoAtividade, qtdeHorasAtividade, dtInicioAtividade, dtFimAtividade, codGrupoPontuacao);
+	}
+
+	public String getCodGrupoPontuacao() {
+		return codGrupoPontuacao;
+	}
+
+	public void setCodGrupoPontuacao(String codGrupoPontuacao) {
+		if(codGrupoPontuacao == null){
+			this.codGrupoPontuacao = "000000000000";
+		}
+		else{
+			this.codGrupoPontuacao = codGrupoPontuacao;
+		}
 	}
 }

@@ -3,6 +3,9 @@ package br.ufg.ms.extrator.tipoatv;
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static java.lang.Float.parseFloat;
 
+import java.nio.charset.Charset;
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;
@@ -14,6 +17,14 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	private static final Logger log = AppLogger.logger();
 	
 	String marcadorInicioAtvEnsino = "Curso Disciplina CHA";
+	private String naturezaAtividade = "001";
+	private String tipoAtividade = "001";
+	/*
+	 * Conforme alinhado com professor Juliano, a categoria, para Atividade de Ensino, será sempre presencial = 001 
+	 */
+	private String categoria = "001";
+	private String subCategoria = "000";
+
 	boolean iniciadaAtividadeEnsino = false;
 	
 	public boolean isIniciadaAtividadeEnsino() {
@@ -25,7 +36,7 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 	}
 	
 	
-	public void extrairDadosAtividade(ControleIteracao ctrl) {
+	public void extrairDadosAtividade(ControleIteracao ctrl) {		
 		if (!isIniciadaAtividadeEnsino() && 
 			!ctrl.line.startsWith(marcadorInicioAtvEnsino)) {
 			return;
@@ -38,6 +49,7 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 		}
 		if (iniciadaAtividadeEnsino) {
 			String[] splitDesc = ctrl.line.split("\\d{1,2} \\d{4}");
+			
 			if (splitDesc.length < 2) {
 				return; //ignorar sileciosamente: quebra comum de texto na tabela
 			}
@@ -45,9 +57,13 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 			String cargaHorariaEAno = ctrl.line.substring(splitDesc[0].length(), ctrl.line.indexOf(splitDesc[1]));
 			String splitCargaHorariaEAno[] = cargaHorariaEAno.split(" ");
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitCargaHorariaEAno[0]));
-			log.debug("	Descricao AE: {}  CHA: {}", 
+			
+			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
+			log.debug("	Descricao AE: {}  CHA: {} CodGrupoPontuacao: {}", 
 					ctrl.atvAtual.getDescricaoAtividade(), 
-					ctrl.atvAtual.getQtdeHorasAtividade());
+					ctrl.atvAtual.getQtdeHorasAtividade(),
+					ctrl.atvAtual.getCodGrupoPontuacao());
 			ctrl.salvarAtvAtual = true;
 		}
 	}

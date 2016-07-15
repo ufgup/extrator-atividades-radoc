@@ -3,6 +3,8 @@ package br.ufg.ms.extrator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import br.ufg.ms.extrator.exception.ErroExtracaoException;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAcadEspec;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTextoPos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeProjetos;
@@ -66,6 +69,7 @@ public class ExtratorAtividadeTexto {
 	 */
 	
 	private ExtratorAtividadeEnsinoTexto extAEnsino 		= new ExtratorAtividadeEnsinoTexto();
+	private ExtratorAtividadeEnsinoTextoPos extAEnsinoPos 	= new ExtratorAtividadeEnsinoTextoPos();
 	private ExtratorAtividadeOrientacao extAOrientacao 		= new ExtratorAtividadeOrientacao();
 	private ExtratorAtividadeExtensao extAExtensao 			= new ExtratorAtividadeExtensao();
 	private ExtratorAtividadeQualificacao  extQualificacao 	= new ExtratorAtividadeQualificacao();
@@ -102,22 +106,25 @@ public class ExtratorAtividadeTexto {
 	public List<Atividade> extrairAtividadesTexto() throws ErroExtracaoException {
 		LinkedList<Atividade> atividades = new LinkedList<>();
 		ControleIteracao ctrl = new ControleIteracao();
-		log.debug(radoc.getConteudoTextual());
 		BufferedReader bufRead = new BufferedReader(new StringReader(radoc.getConteudoTextual()));
 		
 		try {
 			while( ctrl.keepReading && (ctrl.line=bufRead.readLine()) != null )
 			{
-				if (ctrl.line.equals(secoesRadoc[ctrl.iSecao+1])) {
+				byte[] linhaAtual = ctrl.line.getBytes(Charset.forName("UTF-8"));
+				byte[] proxSecao = secoesRadoc[ctrl.iSecao+1].getBytes(Charset.forName("UTF-8"));
+				if (Arrays.equals(linhaAtual, proxSecao)) {
 					ctrl.iSecao++;
 					log.debug("Linha {} : Iniciando secao {}", ctrl.lineNumber, secoesRadoc[ctrl.iSecao]);
 					ctrl.atvAtual = new Atividade(contador);
 				}
+				log.debug("	RR {}: {} | {}", ctrl.lineNumber, ctrl.keepReading, ctrl.iSecao);
 				switch (ctrl.iSecao) {
 				case -1:
 					break;
 				case 0:
 					extAEnsino.extrairDadosAtividade(ctrl);
+					extAEnsinoPos.extrairDadosAtividade(ctrl);
 					break;
 					
 				case 1:
