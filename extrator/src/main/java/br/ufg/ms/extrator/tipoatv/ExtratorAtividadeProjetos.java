@@ -79,7 +79,11 @@ public class ExtratorAtividadeProjetos implements ExtratorAtividadeI {
 		if (isIniciadaExtracao() &&
 				ctrl.line.startsWith(TITULO_PROJETO.toString())) {
 			String splitDescricao[] = ctrl.line.split(TITULO_PROJETO.toString());
-			ctrl.atvAtual.setDescricaoAtividade(splitDescricao[1]);
+			if (splitDescricao.length < 2) {
+				ctrl.atvAtual.setDescricaoAtividade("titulo MAL FORMATADO no RADOC original");
+			} else {
+				ctrl.atvAtual.setDescricaoAtividade(splitDescricao[1]);
+			}
 		}
 		
 		String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;

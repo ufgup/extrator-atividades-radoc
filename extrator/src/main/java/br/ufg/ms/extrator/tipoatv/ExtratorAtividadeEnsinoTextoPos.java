@@ -14,6 +14,8 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 	@SuppressWarnings(value="unused")
 	private static final Logger log = AppLogger.logger();
 	
+	private static final Integer quantMinColunasAtivEnsino = 10;
+	
 	String marcadorInicioAtvEnsino = "Nível Curso Disciplina CHA";
 	/*
 	 * Como definido em resolução o fator de pontos para atividade de ensino é 10/30 
@@ -59,22 +61,26 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 			String[] splitDescAux = ctrl.line.split("\\d{1} \\d{1}");
 			String[] splitDesc = splitDescAux[0].split(" ");
 			
-			int tamanho = splitDesc.length;
-			if( Character.isDigit(splitDesc[splitDesc.length-1].charAt(0))){
-				tamanho = tamanho - 1; 			
+			// quantidade de colunas. Previne problemas com quebras de linha.
+			// ver Radoc2012_detalhado
+			if (splitDesc.length > quantMinColunasAtivEnsino) { 
+				int tamanho = splitDesc.length;
+				if( Character.isDigit(splitDesc[splitDesc.length-1].charAt(0))){
+					tamanho = tamanho - 1; 			
+				}
+				
+				if ((tamanho > 20) || (tamanho < 3)){
+					return; //ignorar sileciosamente: quebra comum de texto na tabela
+				}
+				
+				String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(" "+splitDesc[tamanho-2]+" "));
+				ctrl.atvAtual.setDescricaoAtividade(descricao);
+				ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[tamanho-2]));				
+				String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+				ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
+				ctrl.atvAtual.setarPontuacao(fatorPontos);
+				ctrl.salvarAtvAtual = true;
 			}
-			
-			if ((tamanho > 20) || (tamanho < 3)){
-				return; //ignorar sileciosamente: quebra comum de texto na tabela
-			}
-			
-			String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(" "+splitDesc[tamanho-2]+" "));
-			ctrl.atvAtual.setDescricaoAtividade(descricao);
-			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[tamanho-2]));				
-			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
-			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
-			ctrl.atvAtual.setarPontuacao(fatorPontos);
-			ctrl.salvarAtvAtual = true;
 		}
 	}
 
