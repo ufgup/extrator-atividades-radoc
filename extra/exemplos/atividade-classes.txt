@@ -1,0 +1,20 @@
+I – ATIVIDADES DE ENSINO
+	I - 1 Graduação  - ExtratorAtividadeEnsinoTexto
+	I - 2 Pós-Graduação stricto e lato sensu - ExtratorAtividadeEnsinoTextoPos
+II - PRODUÇÃO INTELECTUAL
+	II - 1 Produção Científica - ExtratorAtividadeGeral
+	II - 2 Produção Artística e Cultural - ExtratorAtividadeGeral
+	II - 3 Produção Técnica e Tecnológica - ExtatorAtividadeProdutos
+	II - 4 Outro Tipo de Produção - ExtratorAtividadeGeral
+III – ATIVIDADES DE PESQUISA E EXTENSÃO
+	III - 1 Atividades de Coordenação de Pesquisa - ExtratorAtividadeProjetos
+	III - 2 Atividades de Extensão - ExtratorAtividadeExtensao
+IV - ATIVIDADES ADMINISTRATIVAS E DE REPRESENTAÇÃO
+	IV – 1 Direção e Função Gratificada - ExtratorAtividadeGeral
+	IV – 2 Atividades Administrativas - ExtratorAtividadeAdministrativa
+	IV – 3 Outras Atividades Administrativas - ExtratorAtividadeGeral
+	IV – 4 Atividades de Representação Fora da UFG - ExtratorAtividadeGeral
+V - OUTRAS ATIVIDADES	
+	V - 1 Atividades Acadêmicas - Orientação - ExtratorAtividadeOrientacao
+	V - 2 Atividades Acadêmicas – Bancas e Cursos - ExtratorAtividadeAcadEspec
+	V - 3 Atividades de Aprendizado e Aperfeiçoamento - ExtratorAtividadeQualificacao
