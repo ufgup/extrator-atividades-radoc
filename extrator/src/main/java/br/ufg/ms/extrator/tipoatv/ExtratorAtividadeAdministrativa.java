@@ -68,6 +68,8 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 		
 		if (isIniciadaExtracao() &&
 			ctrl.line.startsWith(PORTARIA.toString())) {
+			// preve um erro de digitacao comum
+			ctrl.line = ctrl.line.replace("Portaria não há", "Portaria NA");
 			String[] chaEDatas = ctrl.line.split("Portaria [\\d\\/NA]+| CHA: |Data início: | Data término:");
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[2]));
 			ctrl.atvAtual.setDtInicioAtividade(toDate(chaEDatas[3]));
