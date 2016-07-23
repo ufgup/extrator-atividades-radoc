@@ -134,7 +134,20 @@ public class ExtratorAtividadeExtensao implements ExtratorAtividadeI {
 				ctrl.line.startsWith(DESCRICAO_ATV_EXT.toString())) {
 			String splitDescricao = ctrl.line.substring((DESCRICAO_ATV_EXT.toString()).length());
 			ctrl.atvAtual.setDescricaoAtividade(splitDescricao);
-			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			
+			/**
+			 * Caso a categoria não seja encontrada o codgrupoAtividade 
+			 * deve ser zerado, para facilitar a busca e separação de informações 
+			 * com inconsistencias na resolução e RADOC
+			 */
+			String CodGrupoPontuacao;
+			
+			if (categoria == "000") {
+				CodGrupoPontuacao = "000000000000";
+			}else {
+				CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			}
+			
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 			// atingiu final da atividade
 			ctrl.atvAtual.setarPontuacao(this.pontuacao);

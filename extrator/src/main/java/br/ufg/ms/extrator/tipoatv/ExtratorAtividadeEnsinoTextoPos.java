@@ -75,8 +75,21 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 				
 				String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(" "+splitDesc[tamanho-2]+" "));
 				ctrl.atvAtual.setDescricaoAtividade(descricao);
-				ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[tamanho-2]));				
-				String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+				ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[tamanho-2]));	
+				
+				/**
+				 * Caso a categoria não seja encontrada o codgrupoAtividade 
+				 * deve ser zerado, para facilitar a busca e separação de informações 
+				 * com inconsistencias na resolução e RADOC
+				 */
+				String CodGrupoPontuacao;
+				
+				if (categoria == "000") {
+					CodGrupoPontuacao = "000000000000";
+				}else {
+					CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+				}
+				
 				ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 				ctrl.atvAtual.setarPontuacao(fatorPontos);
 				ctrl.salvarAtvAtual = true;

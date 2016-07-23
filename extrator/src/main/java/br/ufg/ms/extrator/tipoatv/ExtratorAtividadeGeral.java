@@ -196,7 +196,18 @@ public class ExtratorAtividadeGeral implements ExtratorAtividadeI {
 				ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
 			}
 			
-			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			/**
+			 * Caso a categoria não seja encontrada o codgrupoAtividade 
+			 * deve ser zerado, para facilitar a busca e separação de informações 
+			 * com inconsistencias na resolução e RADOC
+			 */
+			String CodGrupoPontuacao;
+			
+			if (categoria == "000") {
+				CodGrupoPontuacao = "000000000000";
+			}else {
+				CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			}
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 			ctrl.atvAtual.setarPontuacao(this.pontuacao);
 			ctrl.salvarAtvAtual = true;

@@ -68,7 +68,11 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 		
 		if (isIniciadaExtracao() &&
 			ctrl.line.startsWith(PORTARIA.toString())) {
-			// preve um erro de digitacao comum
+			
+			/**
+			 * Existe uma grande dificuldade em realação a padronização de nomeclaturas pelo RADOC e pela
+			 * resolução. Neste casso essa linha trata um erro de digitação, que tem se tornado bastante comum
+			 */
 			ctrl.line = ctrl.line.replace("Portaria não há", "Portaria NA");
 			String[] chaEDatas = ctrl.line.split("Portaria [\\d\\/NA]+| CHA: |Data início: | Data término:");
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[2]));
@@ -107,7 +111,19 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 			
 		}
 		
-		String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+		/**
+		 * Caso a categoria não seja encontrada o codgrupoAtividade 
+		 * deve ser zerado, para facilitar a busca e separação de informações 
+		 * com inconsistencias na resolução e RADOC
+		 */
+		String CodGrupoPontuacao;
+		
+		if (categoria == "000") {
+			CodGrupoPontuacao = "000000000000";
+		}else {
+			CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+		}
+		
 		ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 		
 		if (ctrl.atvAtual.getDescricaoAtividade() !=null &&

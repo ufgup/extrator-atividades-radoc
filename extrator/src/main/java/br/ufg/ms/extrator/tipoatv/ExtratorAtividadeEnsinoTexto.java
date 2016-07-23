@@ -56,8 +56,21 @@ public class ExtratorAtividadeEnsinoTexto implements ExtratorAtividadeI {
 			ctrl.atvAtual.setDescricaoAtividade(splitDesc[0]);
 			String cargaHorariaEAno = ctrl.line.substring(splitDesc[0].length(), ctrl.line.indexOf(splitDesc[1]));
 			String splitCargaHorariaEAno[] = cargaHorariaEAno.split(" ");
-			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitCargaHorariaEAno[0]));		
-			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitCargaHorariaEAno[0]));	
+			
+			/**
+			 * Caso a categoria não seja encontrada o codgrupoAtividade 
+			 * deve ser zerado, para facilitar a busca e separação de informações 
+			 * com inconsistencias na resolução e RADOC
+			 */
+			String CodGrupoPontuacao;
+			
+			if (categoria == "000") {
+				CodGrupoPontuacao = "000000000000";
+			}else {
+				CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
+			}
+			
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 			ctrl.atvAtual.setarPontuacao(fatorPontos);
 			ctrl.salvarAtvAtual = true;
