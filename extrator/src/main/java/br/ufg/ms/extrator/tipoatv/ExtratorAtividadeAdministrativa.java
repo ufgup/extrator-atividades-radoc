@@ -7,9 +7,6 @@ import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.PORTARIA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 
-import java.nio.charset.Charset;
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;

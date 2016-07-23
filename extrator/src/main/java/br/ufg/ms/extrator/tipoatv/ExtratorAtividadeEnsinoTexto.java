@@ -1,10 +1,6 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static java.lang.Float.parseFloat;
-
-import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 

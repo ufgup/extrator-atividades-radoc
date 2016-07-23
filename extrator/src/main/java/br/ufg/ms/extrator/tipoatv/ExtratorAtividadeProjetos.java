@@ -1,13 +1,10 @@
 package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
-import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TITULO_PROJETO;
 import static java.lang.Float.parseFloat;
-
-import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 

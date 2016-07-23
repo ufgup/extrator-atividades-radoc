@@ -1,23 +1,16 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
-import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TITULO_TRABALHO;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TITULO_TRABALHO;
 import static java.lang.Float.parseFloat;
 
-import java.lang.reflect.Array;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-
-import org.omg.PortableInterceptor.ForwardRequestHelper;
 import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;
 import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
 import br.ufg.ms.extrator.common.AppLogger;
-import br.ufg.ms.extrator.common.DataUtil;
 
 public class ExtratorAtividadeGeral implements ExtratorAtividadeI {
 	

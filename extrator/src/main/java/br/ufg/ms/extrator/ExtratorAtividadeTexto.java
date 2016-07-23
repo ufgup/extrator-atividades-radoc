@@ -115,6 +115,7 @@ public class ExtratorAtividadeTexto {
 	 */
 	
 	public List<Atividade> extrairAtividadesTexto() throws ErroExtracaoException {
+//		log.debug(radoc.getConteudoTextual());    // conteudo bruto do radoc, recem extraido do pdf
 		LinkedList<Atividade> atividades = new LinkedList<>();
 		ControleIteracao ctrl = new ControleIteracao();
 		BufferedReader bufRead = new BufferedReader(new StringReader(radoc.getConteudoTextual()));

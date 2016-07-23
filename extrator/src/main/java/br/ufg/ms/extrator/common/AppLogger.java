@@ -16,7 +16,7 @@ public class AppLogger {
 		return LOGGER;
 	}
 	
-	public static Logger createLogger(Class clazz) {
+	public static Logger createLogger(Class<?> clazz) {
 		return LoggerFactory.getLogger(clazz.getName());
 	}
 

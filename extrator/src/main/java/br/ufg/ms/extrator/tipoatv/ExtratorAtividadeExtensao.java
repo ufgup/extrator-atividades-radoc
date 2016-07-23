@@ -3,11 +3,8 @@ package br.ufg.ms.extrator.tipoatv;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.DESCRICAO_ATV_EXT;
-import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.PORTARIA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
-
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 

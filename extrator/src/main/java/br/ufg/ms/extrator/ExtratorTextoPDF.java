@@ -12,7 +12,6 @@ import br.ufg.ms.extrator.common.AppLogger;
 import br.ufg.ms.extrator.entities.radoc.Radoc;
 import br.ufg.ms.extrator.exception.ArquivoInvalidoException;
 import br.ufg.ms.extrator.exception.ErroExtracaoException;
-import ch.qos.logback.core.encoder.Encoder;
 
 
 /**

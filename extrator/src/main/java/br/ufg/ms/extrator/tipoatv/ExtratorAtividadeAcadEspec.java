@@ -5,8 +5,6 @@ import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
 import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 
 import br.ufg.ms.extrator.ExtratorAtividadeI;
