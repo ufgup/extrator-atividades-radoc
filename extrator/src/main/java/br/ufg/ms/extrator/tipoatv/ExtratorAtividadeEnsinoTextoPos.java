@@ -17,6 +17,10 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 	private static final Logger log = AppLogger.logger();
 	
 	String marcadorInicioAtvEnsino = "Nível Curso Disciplina CHA";
+	/*
+	 * Como definido em resolução o fator de pontos para atividade de ensino é 10/30 
+	 */
+	private Float fatorPontos = (float)  0.3333;
 	private String naturezaAtividade = "001";
 	private String tipoAtividade = "002";
 	/*
@@ -45,7 +49,6 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 		if (!isIniciadaAtividadeEnsino() && 
 			ctrl.line.startsWith(marcadorInicioAtvEnsino)) {
 			setIniciadaAtividadeEnsino(true);
-			log.debug("	Linha {}: Iniciando leitura efetiva das atividades de ensino Pós na proxima linha", ctrl.lineNumber);
 			return;
 		}
 		if (iniciadaAtividadeEnsino) {
@@ -58,13 +61,9 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 			String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(splitDesc[splitDesc.length-2]));
 			ctrl.atvAtual.setDescricaoAtividade(descricao);
 			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[splitDesc.length-2]));				
-			
 			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
-			log.debug("	Descricao AE: {}  CHA: {} CodGrupoPontuacao: {}", 
-					ctrl.atvAtual.getDescricaoAtividade(), 
-					ctrl.atvAtual.getQtdeHorasAtividade(),
-					ctrl.atvAtual.getCodGrupoPontuacao());
+			ctrl.atvAtual.setarPontuacao(fatorPontos);
 			ctrl.salvarAtvAtual = true;
 		}
 	}

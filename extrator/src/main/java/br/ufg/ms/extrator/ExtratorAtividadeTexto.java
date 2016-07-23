@@ -19,7 +19,9 @@ import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTexto;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeEnsinoTextoPos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeExtensao;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeGeral;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao;
+import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeProdutos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeProjetos;
 import br.ufg.ms.extrator.tipoatv.ExtratorAtividadeQualificacao;
 
@@ -50,7 +52,14 @@ public class ExtratorAtividadeTexto {
 		"Atividades de qualificação",
 		"Atividades acadêmicas especiais",
 		"Atividades administrativas",
-		"Produtos"
+		"Produtos",
+		"Produção Científica",
+		"Produção Artística e Cultural", 
+		"Produção Técnica e Tecnológica", 
+		"Outro Tipo de Produção",
+		"Outras Atividades Administrativas", 
+		"Atividades de Representação Fora da UFG"
+		
 	};
 	
 	/**
@@ -76,6 +85,8 @@ public class ExtratorAtividadeTexto {
 	private ExtratorAtividadeAcadEspec extAAcadEspe 		= new ExtratorAtividadeAcadEspec();
 	private ExtratorAtividadeAdministrativa extAAdmin 		= new ExtratorAtividadeAdministrativa();
 	private ExtratorAtividadeProjetos extAProjeto 			= new ExtratorAtividadeProjetos();
+	private ExtratorAtividadeProdutos extAProdutos  		= new ExtratorAtividadeProdutos();
+	private ExtratorAtividadeGeral extAGeral				= new ExtratorAtividadeGeral();
 	
 	public ExtratorAtividadeTexto(Radoc newRadoc) {
 		radoc = newRadoc;
@@ -118,7 +129,7 @@ public class ExtratorAtividadeTexto {
 					log.debug("Linha {} : Iniciando secao {}", ctrl.lineNumber, secoesRadoc[ctrl.iSecao]);
 					ctrl.atvAtual = new Atividade(contador);
 				}
-				log.debug("	RR {}: {} | {}", ctrl.lineNumber, ctrl.keepReading, ctrl.iSecao);
+				
 				switch (ctrl.iSecao) {
 				case -1:
 					break;
@@ -149,6 +160,18 @@ public class ExtratorAtividadeTexto {
 				case 6:
 					extAAdmin.extrairDadosAtividade(ctrl);
 					break;
+				
+				case 7:
+					extAProdutos.extrairDadosAtividade(ctrl);
+					break;
+				case 8:
+				case 9:
+				case 10:
+				case 11:
+				case 12:
+				case 13:
+					extAGeral.extrairDadosAtividade(ctrl);
+					break;
 					
 				default:
 					ctrl.keepReading = false;
@@ -168,7 +191,7 @@ public class ExtratorAtividadeTexto {
 			throw new ErroExtracaoException("Erro ao extrair linha " + ctrl.line + " do arquivo", e);
 		}
 		log.info("Extracao concluida com {} atividades", atividades.size());
-		log.debug("Atividades: {}", atividades);
+		//log.debug("Atividades: {}", atividades);
 		return atividades;
 	}
 	
@@ -185,6 +208,25 @@ public class ExtratorAtividadeTexto {
 		public Boolean keepReading = true;
 		public Atividade atvAtual;
 		public Boolean salvarAtvAtual = false;
+		
+		public String[] buscaDadosporCategoria(String[][] tabelaCategorias, String tabelaAtividade) {
+			String[] retorno = {
+					"000", //categoria	
+					"0" //pontos
+			};
+			if((tabelaAtividade.trim() != "") && (tabelaAtividade != null)){
+				for(int i=0; i < tabelaCategorias.length; i++){
+					byte[] linhaAtual = tabelaAtividade.toUpperCase().replaceAll(" ", "").trim().getBytes(Charset.forName("UTF-8"));
+					byte[] catAtual = tabelaCategorias[i][1].toUpperCase().replaceAll(" ", "").trim().getBytes(Charset.forName("UTF-8"));
+					
+					if (Arrays.equals(linhaAtual, catAtual)) {
+						retorno[0] = tabelaCategorias[i][0];
+						retorno[1] = tabelaCategorias[i][2];
+					}
+				}	
+			}
+			return retorno;
+		}
 		
 		@Override
 		public String toString() {

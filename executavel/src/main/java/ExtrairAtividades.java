@@ -68,7 +68,7 @@ public class ExtrairAtividades {
 			    String texto = atividades.toString();
 			    String txt = texto.substring(3,texto.length()-1);
 			    
-			    gravarArq.printf(txt.replaceAll(",", ""));
+			    gravarArq.printf(txt.replaceAll(",", "").replaceAll(" .00 ", " 0.00 "));
 				arq.close();
 				logger().debug("Arquivo .txt gravado com sucesso!");
 			} catch (IOException e) {

@@ -2,9 +2,9 @@ package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.AppLogger.createLogger;
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao.TagsDados.CHA;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao.TagsDados.TITULO_TRABALHO;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeOrientacao.TagsDados.TABELA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TITULO_TRABALHO;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 
 import java.lang.reflect.Array;
@@ -23,7 +23,6 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 	
 	private static final Logger log = AppLogger.logger();
 	
-	String marcadorInicio = "Atividades de orientação";
 	boolean iniciadaExtracao = false;
 	private String naturezaAtividade = "005";
 	private String tipoAtividade = "001";
@@ -68,6 +67,7 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 		};
 	private String categoria;
 	private String subCategoria = "000";
+	private Float pontuacao = (float) 0;
 	
 	@Override
 	public void extrairDadosAtividade(ControleIteracao ctrl) {
@@ -78,7 +78,6 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 		if (!isIniciadaExtracao() &&
 			ctrl.line.startsWith(TITULO_TRABALHO.toString())) {
 			setIniciadaExtracao(true);
-			log.debug("	Linha {}: Iniciando leitura efetiva das atividades de orientacao", ctrl.lineNumber);
 		}
 		
 		if (isIniciadaExtracao() &&
@@ -90,7 +89,10 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 		if (isIniciadaExtracao() &&
 				ctrl.line.startsWith(TABELA.toString())) {
 			String tabelaAtividade = ctrl.line.substring((TABELA.toString()).length());
-			this.categoria = buscaCategoria(tabelaAtividade);			
+			String[] catPontos = null;
+			catPontos = ctrl.buscaDadosporCategoria(this.tabelaCategorias, tabelaAtividade);
+			this.categoria = catPontos[0];
+			this.pontuacao = parseFloat(catPontos[1]);
 		}
 		
 		if (isIniciadaExtracao() &&
@@ -107,25 +109,16 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 				ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(chaEDatas[1]));
 			}
 			
+			ctrl.atvAtual.setarPontuacao(this.pontuacao);
+			
 			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 			ctrl.salvarAtvAtual = true;
+			setIniciadaExtracao(false);
 		}
 		
 		
 		
-	}
-
-	private String buscaCategoria(String tabelaAtividade) {
-		for(int i=0; i < tabelaCategorias.length; i++){
-			byte[] linhaAtual = tabelaAtividade.toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
-			byte[] catAtual = tabelaCategorias[i][1].toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
-			
-			if (Arrays.equals(linhaAtual, catAtual)) {
-				return tabelaCategorias[i][0];
-			}
-		}
-		return "000";		
 	}
 
 	private boolean isIniciadaExtracao() {
@@ -134,23 +127,8 @@ public class ExtratorAtividadeOrientacao implements ExtratorAtividadeI {
 
 	private void setIniciadaExtracao(boolean iniciadaExtracao) {
 		this.iniciadaExtracao = iniciadaExtracao;
+		this.categoria = "";
+		this.subCategoria = "000";
+		this.pontuacao = (float) 0;
 	}
-	
-	enum TagsDados {
-		TITULO_TRABALHO("Título do trabalho:"),
-		CHA("CHA"),
-		TABELA("Tabela:");
-		
-		private String str;
-
-		TagsDados(String str) {
-			this.str = str;
-		}
-		
-		@Override
-		public String toString() {
-			return str;
-		}
-	}
-
 }

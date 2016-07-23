@@ -1,10 +1,10 @@
 package br.ufg.ms.extrator.tipoatv;
 
 import static br.ufg.ms.extrator.common.DataUtil.toDate;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.CHA;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.DESCRICAO_ATV;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.PORTARIA;
-import static br.ufg.ms.extrator.tipoatv.ExtratorAtividadeAdministrativa.TagsDados.TABELA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.CHA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.DESCRICAO_ATV_ADM;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.PORTARIA;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.TABELA;
 import static java.lang.Float.parseFloat;
 
 import java.nio.charset.Charset;
@@ -28,27 +28,36 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 	private static final Logger log = AppLogger.logger();
 	
 	private String[][] tabelaCategorias = {
-			{"001", "Coordenador de projeto institucional com financiamento ou de contratos e "
-				  + "convênio com plano de trabalho aprovado", "5"},
-			{"002", "Coordenador de curso de especialização, residência médica ou residência "
-				  + "multiprofissional em saúde (total máximo a ser considerado neste item são 10 "
-				  + "pontos)", "10"},
+			{"001", "Coordenador de projeto institucional com financiamento ou de contratos e convênio com plano de trabalho aprovado", "5"},
+			{"002", "Coordenador de curso de especialização, residência médica ou residência multiprofissional em saúde", "10"},
 		    {"003", "Membro representante de classe da carreira docente no CONSUNI", "10"},
 		    {"004", "Membro do Conselho de Curadores ou do Plenário do CEPEC ou de Conselho de Fundações", "10"},
-		    {"005", "Atividades acadêmicas e administrativas designadas por portaria do Reitor, "
-		    	  + "Pró-Reitor ou Diretor de Unidade Acadêmica com carga horária >=150 horas", "10"}
-			};
+		    {"005", "Atividades acadêmicas e administrativas designadas por portaria do Reitor, Pró-Reitor ou Diretor de Unidade Acadêmica com carga horária >=150 horas", "10"},
+		    {"005", "ATIVIDADES ACADÊMICAS E ADMINISTRATIVAS DESIGNADAS POR PORTARIA DO REITOR, PRÓ-REITOR OU DIRETOR DE UNIDADE ACADÊMICA COM CARGAHORÁRIA >=150 HORAS", "10"}
+	};
 	
 	String naturezaAtividade 	= "004";
 	String tipoAtividade 		= "002";
 	String subCategoria 		= "000";
 	String categoria;
+	private Float pontuacao = (float) 0;
 	
 	String marcadorInicio = "Atividades de qualificação";
 	boolean iniciadaExtracao = false;
+	private String linhaAnterior = "";
+	boolean proxLinha = false;
+	String tabelaSalva = "";
 	
 	@Override
 	public void extrairDadosAtividade(ControleIteracao ctrl) {
+		/*
+		 * salvando linha anterior, pois há categorias que se quebram em 2 linhas
+		 */
+		if (!(ctrl.line.startsWith(PORTARIA.toString())) &&
+				!(ctrl.line.startsWith(TABELA.toString())) &&
+				!(ctrl.line.startsWith(CHA.toString()))){
+			linhaAnterior = ctrl.line;
+		}
 		if (!isIniciadaExtracao() &&
 			!ctrl.line.startsWith(TABELA.toString())) {
 			return;
@@ -57,7 +66,6 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 			(ctrl.line.startsWith(TABELA.toString()) ||
 			ctrl.line.startsWith(CHA.toString()))) {
 			setIniciadaExtracao(true);
-			log.debug("	Linha {}: Iniciando leitura efetiva das atividades administrativas na proxima linha", ctrl.lineNumber);
 		}
 		
 		if (isIniciadaExtracao() &&
@@ -68,15 +76,33 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 			ctrl.atvAtual.setDtFimAtividade(toDate(chaEDatas[4]));
 			
 		}
-		if (isIniciadaExtracao() &&
-				ctrl.line.startsWith(TABELA.toString())) {
-			String tabelaAtividade = ctrl.line.substring((TABELA.toString()).length());
-			this.categoria = buscaCategoria(tabelaAtividade);			
+		if ((isIniciadaExtracao() &&
+				ctrl.line.startsWith(TABELA.toString())) ||
+				proxLinha) {
+			String tabelaAtividade = null;
+			String[] catPontos = null;
+			
+			tabelaAtividade = ctrl.line.substring((TABELA.toString()).length());
+			
+			if((tabelaAtividade.trim().equals("")) || (tabelaAtividade == null)){
+				tabelaSalva = linhaAnterior;
+				proxLinha = true;
+				return;
+			}
+			if(proxLinha){
+				tabelaAtividade =  tabelaSalva + ctrl.line;
+				proxLinha = false;
+				tabelaSalva = "";
+			}
+			catPontos = ctrl.buscaDadosporCategoria(this.tabelaCategorias, tabelaAtividade);
+			this.categoria = catPontos[0];	
+			
+			this.pontuacao = parseFloat(catPontos[1]);
 		}
 		
 		if (isIniciadaExtracao() &&
-				ctrl.line.startsWith(DESCRICAO_ATV.toString())) {
-			String splitDescricao = ctrl.line.substring((DESCRICAO_ATV.toString()).length());
+				ctrl.line.startsWith(DESCRICAO_ATV_ADM.toString())) {
+			String splitDescricao = ctrl.line.substring((DESCRICAO_ATV_ADM.toString()).length());
 			ctrl.atvAtual.setDescricaoAtividade(splitDescricao);
 			
 		}
@@ -86,22 +112,15 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 		
 		if (ctrl.atvAtual.getDescricaoAtividade() !=null &&
 			ctrl.atvAtual.getQtdeHorasAtividade() != null ) {
+			
+			if(((ctrl.atvAtual.getPontos() == null) || (ctrl.atvAtual.getPontos() <= 0)) && (this.pontuacao > 0)){
+				ctrl.atvAtual.setarPontuacao(this.pontuacao);
+			}
+			
 			// atingiu final da atividade
 			ctrl.salvarAtvAtual = true;
-		}
-		
-	}
-	
-	private String buscaCategoria(String tabelaAtividade) {
-		for(int i=0; i < tabelaCategorias.length; i++){
-			byte[] linhaAtual = tabelaAtividade.toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
-			byte[] catAtual = tabelaCategorias[i][1].toUpperCase().trim().getBytes(Charset.forName("UTF-8"));
-			
-			if (Arrays.equals(linhaAtual, catAtual)) {
-				return tabelaCategorias[i][0];
-			}
-		}
-		return "000";		
+			setIniciadaExtracao(false);
+		}		
 	}
 
 	private boolean isIniciadaExtracao() {
@@ -110,24 +129,9 @@ public class ExtratorAtividadeAdministrativa implements ExtratorAtividadeI {
 
 	private void setIniciadaExtracao(boolean iniciadaExtracao) {
 		this.iniciadaExtracao = iniciadaExtracao;
-	}
-	
-	enum TagsDados {
-		DESCRICAO_ATV("Descrição:"),
-		TABELA("Tabela:"),
-		PORTARIA("Portaria"),
-		CHA("CHA:");
-		
-		private String str;
-
-		TagsDados(String str) {
-			this.str = str;
-		}
-		
-		@Override
-		public String toString() {
-			return str;
-		}
+		this.categoria = "";
+		this.subCategoria = "000";
+		this.pontuacao = (float) 0;
 	}
 
 }
