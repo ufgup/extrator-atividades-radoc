@@ -20,6 +20,7 @@ import br.ufg.ms.extrator.common.AppLogger;
 
 public class ExtratorAtividadeProjetos implements ExtratorAtividadeI {
 	
+	@SuppressWarnings(value="unused")
 	private static final Logger log = AppLogger.logger();
 	
 	boolean iniciadaExtracao = false;		

@@ -11,6 +11,7 @@ import br.ufg.ms.extrator.common.AppLogger;
 
 public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 	
+	@SuppressWarnings(value="unused")
 	private static final Logger log = AppLogger.logger();
 	
 	String marcadorInicioAtvEnsino = "Nível Curso Disciplina CHA";

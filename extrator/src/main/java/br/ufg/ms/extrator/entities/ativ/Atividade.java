@@ -233,7 +233,6 @@ public class Atividade {
 	}
 	
 	public void setarPontuacao(float pontuacao) {
-		// TODO Auto-generated method stub
 		if(Arrays.asList(categoriasCalculoCargaHoraria).contains(this.getCodGrupoPontuacao())){
 			this.setPontos((this.getQtdeHorasAtividade()*pontuacao));
 		}

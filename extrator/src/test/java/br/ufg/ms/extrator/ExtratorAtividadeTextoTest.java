@@ -1,6 +1,5 @@
 package br.ufg.ms.extrator;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import br.ufg.ms.extrator.entities.radoc.Radoc;

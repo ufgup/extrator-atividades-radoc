@@ -27,7 +27,6 @@ public class ExtratorTextoPDF {
 	
 	private Radoc radoc;
 	private static final Logger log = AppLogger.createLogger(ExtratorAtividadeTexto.class);
-	private String textoBruto = "";
 	
 	public ExtratorTextoPDF(Radoc radoc) throws ArquivoInvalidoException, ErroExtracaoException {
 		if (radoc == null) {

@@ -22,6 +22,7 @@ import br.ufg.ms.extrator.common.AppLogger;
 
 public class ExtratorAtividadeQualificacao implements ExtratorAtividadeI {
 	
+	@SuppressWarnings(value="unused")
 	private static final Logger log = AppLogger.logger();
 	
 	private String naturezaAtividade = "005";
