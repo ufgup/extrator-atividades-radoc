@@ -3,10 +3,7 @@ package br.ufg.ms.extrator.entities.ativ;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-
-import br.ufg.ms.extrator.ExtratorAtividadeTexto.ControleIteracao;
 
 
 /**
@@ -30,7 +27,7 @@ public class Atividade {
 	 */
 	private String[] categoriasCalculoCargaHoraria = {
 		"001001001000",
-		"001001002000"
+		"001002001000"
 	};
 	private String[] categoriasCalculoAno = {
 			"002003009;000",
