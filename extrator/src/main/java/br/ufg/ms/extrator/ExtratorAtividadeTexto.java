@@ -45,20 +45,20 @@ public class ExtratorAtividadeTexto {
 	 */
 	
 	private String[] secoesRadoc = {
-		"Atividades de ensino",
-		"Atividades de orientação",
-		"Atividades em projetos",
-		"Atividades de extensão",
-		"Atividades de qualificação",
-		"Atividades acadêmicas especiais",
-		"Atividades administrativas",
-		"Produtos",
-		"Produção Científica",
-		"Produção Artística e Cultural", 
-		"Produção Técnica e Tecnológica", 
-		"Outro Tipo de Produção",
-		"Outras Atividades Administrativas", 
-		"Atividades de Representação Fora da UFG"
+		"Atividades de ensino",						// 0
+		"Atividades de orientação",					// 1
+		"Atividades em projetos",					// 2
+		"Atividades de extensão",					// 3
+		"Atividades de qualificação",				// 4
+		"Atividades acadêmicas especiais",			// 5
+		"Atividades administrativas",				// 6
+		"Produtos",									// 7
+		"Produção Científica",						// 8
+		"Produção Artística e Cultural", 			// 9
+		"Produção Técnica e Tecnológica", 			// 10
+		"Outro Tipo de Produção",					// 11
+		"Outras Atividades Administrativas", 		// 12
+		"Atividades de Representação Fora da UFG"	// 13
 		
 	};
 	
