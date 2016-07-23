@@ -1,10 +1,7 @@
 package br.ufg.ms.extrator.tipoatv;
 
-import static br.ufg.ms.extrator.common.AppLogger.createLogger;
+import static br.ufg.ms.extrator.entities.ativ.Atividade.TagsDados.DATA;
 import static java.lang.Float.parseFloat;
-
-import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.slf4j.Logger;
 
@@ -51,16 +48,28 @@ public class ExtratorAtividadeEnsinoTextoPos implements ExtratorAtividadeI {
 			setIniciadaAtividadeEnsino(true);
 			return;
 		}
+		if(iniciadaAtividadeEnsino &&
+				ctrl.line.startsWith(DATA.toString())){
+			// final de pagina, contém o cabeçalho, mas não a atividade
+			setIniciadaAtividadeEnsino(false);
+			return;
+		}
 		if (iniciadaAtividadeEnsino) {
 			String[] splitDescAux = ctrl.line.split("\\d{1} \\d{1}");
 			String[] splitDesc = splitDescAux[0].split(" ");
 			
-			if (splitDesc.length > 20) {
+			int tamanho = splitDesc.length;
+			if( Character.isDigit(splitDesc[splitDesc.length-1].charAt(0))){
+				tamanho = tamanho - 1; 			
+			}
+			
+			if ((tamanho > 20) || (tamanho < 3)){
 				return; //ignorar sileciosamente: quebra comum de texto na tabela
 			}
-			String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(splitDesc[splitDesc.length-2]));
+			
+			String descricao = ctrl.line.substring(ctrl.line.indexOf(splitDesc[1]), ctrl.line.indexOf(" "+splitDesc[tamanho-2]+" "));
 			ctrl.atvAtual.setDescricaoAtividade(descricao);
-			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[splitDesc.length-2]));				
+			ctrl.atvAtual.setQtdeHorasAtividade(parseFloat(splitDesc[tamanho-2]));				
 			String CodGrupoPontuacao = naturezaAtividade + tipoAtividade + categoria + subCategoria;
 			ctrl.atvAtual.setCodGrupoPontuacao(CodGrupoPontuacao);
 			ctrl.atvAtual.setarPontuacao(fatorPontos);
